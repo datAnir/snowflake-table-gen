@@ -15,4 +15,8 @@ The only things we do here are:
 2) Set index to False - because Snowflake doesn't use indexes.
 
 Note: I do _not_ recommend using this to do large loads, as under the hood Pandas is using an INSERT statement, which doesn't leverage Snowflake's COPY command. COPY is much faster for bulk data loads. This is just a speedy way of generating the DDL and auto-running it.
- 
+
+
+TODOs/Caveats/Open questions:
+- I'm not certain how far Pandas goes to get optimal DDL - I highly recommend using the generated DDL as a start point and editing it.
+- Ideally this would be easier to use, but honestly you can probably just use the interactive interpreter.
