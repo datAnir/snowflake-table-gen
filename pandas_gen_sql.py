@@ -3,6 +3,8 @@
 import pandas
 from sqlalchemy import create_engine
 from parameters import user, password, account, database, schema, warehouse, role, table_name, csv_file
+from snowflake.connector.pandas_tools import pd_writer
+
 engine = create_engine(
     'snowflake://{user}:{password}@{account}/{database}/{schema}?warehouse={warehouse}&role={role}'.format(
         user=user,
@@ -20,5 +22,5 @@ with engine.connect() as connection:
     results = connection.execute('select current_version()').fetchone()
     print(results[0])
     df = pandas.read_csv(csv_file)
-    df.to_sql(table_name, connection, if_exists='fail', index=False, chunksize=16000)
+    df.to_sql(table_name, connection, if_exists='fail', index=False, chunksize=16000, method=pd_writer)
 
